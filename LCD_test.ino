@@ -7,6 +7,7 @@
 #define I2Cadr 0x3e  // 固定
 byte contrast = 35;  // コントラスト(0～63)
 
+
 void setup() {
   Serial.begin(9600);
   pinMode(gndPin, OUTPUT);
@@ -15,6 +16,21 @@ void setup() {
   digitalWrite(vddPin, HIGH);
   delay(500);
   Wire.begin();
+  init_dev();
+  lcd_setContrast(20);
+}
+
+void loop() {
+  lcd_setCursor(0, 0);
+  int num1 = 1000723;
+  lcd_printInt(num1);
+  lcd_setCursor(1, 1);
+  float num2 = 10.25;
+  lcd_printFloat(num2);
+  delay(100);
+}
+
+void init_dev(){
   lcd_cmd(0b00111000); // function set
   lcd_cmd(0b00111001); // function set
   lcd_cmd(0b00000100); // EntryModeSet
@@ -27,16 +43,6 @@ void setup() {
   lcd_cmd(0b00001100); // Display On
   lcd_cmd(0b00000001); // Clear Display
   delay(2);
-}
-
-void loop() {
-  lcd_setCursor(0, 0);
-  int num1 = 1000723;
-  lcd_printInt(num1);
-  lcd_setCursor(1, 1);
-  float num2 = 10.25;
-  lcd_printFloat(num2);
-  delay(100);
 }
 
 void lcd_cmd(byte x) {
@@ -88,3 +94,10 @@ void lcd_printFloat(float num)
    dtostrf(num, 5, 1, str);
    lcd_printStr(str);
  }
+
+void lcd_setContrast(byte c) {
+  lcd_cmd(0x39);
+  lcd_cmd(0b01110000 | (c & 0x0f)); // contrast Low
+  lcd_cmd(0b01011100 | ( (c >> 4) & 0x03) ); // contrast High/icon/power
+  lcd_cmd(0x38);
+}
