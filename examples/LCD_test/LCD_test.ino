@@ -1,7 +1,7 @@
-#include "I2C-LCD.h"
+#include "I2C_LCD.h"
 
 // i2c_lcdクラスインスタンス
-i2c_lcd lcd;
+I2C_LCD lcd;
 
 void setup() {
   lcd.begin();
@@ -16,6 +16,6 @@ void loop() {
   lcd.printStr("kP");
   lcd.setCursor(1, 1);
   float num2 = 10.25;
-  lcd.printFloat(num2);
+  lcd.printFloat(num2,5,1);
   delay(100);
 }

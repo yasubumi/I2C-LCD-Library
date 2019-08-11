@@ -11,14 +11,14 @@
 #define LCD_I2CADDR 0x3E
 #define DEFAULT_CONTRAST 20 // contrast(0~63)
 
-class i2c_lcd{
+class I2C_LCD{
 public:
-    i2c_lcd();
+    I2C_LCD();
     void begin();
     void setCursor(byte x, byte y);
     void printStr(const char *s);
-    void printInt(int32_t num);
-    void printFloat(float num);
+    void printInt(int num);
+    void printFloat(float num, signed char width, unsigned char prec);
     void setContrast(byte c);
 
 private:
